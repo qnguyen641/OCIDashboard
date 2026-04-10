@@ -32,6 +32,7 @@ msbuild.wrn
 
 ## Secrets — do NOT commit real credentials
 appsettings.Production.json
+.env
 
 ## OS files
 Thumbs.db

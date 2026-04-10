@@ -8,6 +8,24 @@ using OracleWebApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load .env file if it exists (local dev convenience)
+var envPath = Path.Combine(Directory.GetCurrentDirectory(), "..", ".env");
+if (File.Exists(envPath))
+{
+    foreach (var line in File.ReadAllLines(envPath))
+    {
+        var trimmed = line.Trim();
+        if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith('#')) continue;
+        var idx = trimmed.IndexOf('=');
+        if (idx <= 0) continue;
+        var key = trimmed[..idx].Trim();
+        var value = trimmed[(idx + 1)..].Trim();
+        Environment.SetEnvironmentVariable(key, value);
+    }
+    // Reload configuration so env vars take effect
+    builder.Configuration.AddEnvironmentVariables();
+}
+
 // Render sets PORT env var — bind to it
 var port = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrEmpty(port))
