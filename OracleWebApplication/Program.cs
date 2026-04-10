@@ -58,7 +58,8 @@ if (!string.IsNullOrEmpty(dbUrl))
         connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')}"
                          + $";Username={Uri.UnescapeDataString(userInfo[0])}"
                          + $";Password={Uri.UnescapeDataString(userInfo[1])}"
-                         + ";SSL Mode=Require;Trust Server Certificate=true";
+                         + ";SSL Mode=Require;Trust Server Certificate=true"
+                         + ";Timeout=30;Command Timeout=60";
     }
     else
     {
