@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Navigation -->
+  <data name="Nav_Home" xml:space="preserve"><value>Home</value></data>
+  <data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Nav_Privacy" xml:space="preserve"><value>Privacy</value></data>
+  <data name="Nav_Admin" xml:space="preserve"><value>Admin</value></data>
+  <data name="Nav_Tenants" xml:space="preserve"><value>Tenants</value></data>
+  <data name="Nav_Users" xml:space="preserve"><value>Users</value></data>
+  <data name="Nav_AuditLogs" xml:space="preserve"><value>Audit Logs</value></data>
+  <data name="Nav_Login" xml:space="preserve"><value>Login</value></data>
+  <data name="Nav_Register" xml:space="preserve"><value>Register</value></data>
+  <data name="Nav_Logout" xml:space="preserve"><value>Logout</value></data>
+  <data name="Nav_Hello" xml:space="preserve"><value>Hello, {0}!</value></data>
+  <data name="Nav_Language" xml:space="preserve"><value>Language</value></data>
+
+  <!-- Dashboard Header -->
+  <data name="Dash_Subtitle" xml:space="preserve"><value>Cost Analysis | Oracle Cloud Infrastructure</value></data>
+  <data name="Dash_DateTo" xml:space="preserve"><value>to</value></data>
+
+  <!-- Dashboard KPI -->
+  <data name="Dash_CumulativeCost" xml:space="preserve"><value>Cumulative Total Cost (excl. tax)</value></data>
+  <data name="Dash_CurrentMonthCost" xml:space="preserve"><value>Current Month Cost (excl. tax)</value></data>
+  <data name="Dash_Account" xml:space="preserve"><value>Account</value></data>
+  <data name="Dash_LastUpdated" xml:space="preserve"><value>Last Updated</value></data>
+
+  <!-- Dashboard Charts -->
+  <data name="Dash_MonthlyCost" xml:space="preserve"><value>Monthly Cost</value></data>
+  <data name="Dash_RegionBreakdown" xml:space="preserve"><value>Regional Cost Breakdown</value></data>
+  <data name="Dash_DailyCost" xml:space="preserve"><value>Daily Cost</value></data>
+  <data name="Dash_DailyProductCost" xml:space="preserve"><value>Daily Cost by Product</value></data>
+  <data name="Dash_OutboundTransfer" xml:space="preserve"><value>VCN / Outbound Data Transfer</value></data>
+
+  <!-- Dashboard Tables -->
+  <data name="Dash_DailyProductTable" xml:space="preserve"><value>Daily Cost by Product</value></data>
+  <data name="Dash_RegionalProductTable" xml:space="preserve"><value>Regional Cost by Product</value></data>
+  <data name="Dash_ProductService" xml:space="preserve"><value>Product / Service</value></data>
+  <data name="Dash_Cost" xml:space="preserve"><value>Cost</value></data>
+  <data name="Dash_Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Dash_Region" xml:space="preserve"><value>Region</value></data>
+
+  <!-- Dashboard Filters -->
+  <data name="Filter_StartDate" xml:space="preserve"><value>Start Date</value></data>
+  <data name="Filter_EndDate" xml:space="preserve"><value>End Date</value></data>
+  <data name="Filter_Regions" xml:space="preserve"><value>Regions</value></data>
+  <data name="Filter_Services" xml:space="preserve"><value>Services</value></data>
+  <data name="Filter_Apply" xml:space="preserve"><value>Apply Filters</value></data>
+  <data name="Filter_Reset" xml:space="preserve"><value>Reset</value></data>
+  <data name="Filter_AllRegions" xml:space="preserve"><value>All Regions</value></data>
+  <data name="Filter_AllServices" xml:space="preserve"><value>All Services</value></data>
+
+  <!-- Login -->
+  <data name="Login_Title" xml:space="preserve"><value>Log in</value></data>
+  <data name="Login_Email" xml:space="preserve"><value>Email</value></data>
+  <data name="Login_Password" xml:space="preserve"><value>Password</value></data>
+  <data name="Login_RememberMe" xml:space="preserve"><value>Remember me</value></data>
+  <data name="Login_Submit" xml:space="preserve"><value>Log in</value></data>
+  <data name="Login_ForgotPassword" xml:space="preserve"><value>Forgot your password?</value></data>
+  <data name="Login_CreateAccount" xml:space="preserve"><value>Create a new account</value></data>
+
+  <!-- Forgot Password -->
+  <data name="ForgotPw_Title" xml:space="preserve"><value>Forgot Password</value></data>
+  <data name="ForgotPw_Desc" xml:space="preserve"><value>Enter your email address and we'll send you a link to reset your password.</value></data>
+  <data name="ForgotPw_Submit" xml:space="preserve"><value>Send Reset Link</value></data>
+  <data name="ForgotPw_BackToLogin" xml:space="preserve"><value>Back to Login</value></data>
+
+  <!-- Forgot Password Confirmation -->
+  <data name="ForgotPwConf_Title" xml:space="preserve"><value>Email Sent</value></data>
+  <data name="ForgotPwConf_Message" xml:space="preserve"><value>If an account with that email exists, we've sent a password reset link. Please check your inbox (and spam folder).</value></data>
+
+  <!-- Reset Password -->
+  <data name="ResetPw_Title" xml:space="preserve"><value>Reset Password</value></data>
+  <data name="ResetPw_Desc" xml:space="preserve"><value>Enter your new password below.</value></data>
+  <data name="ResetPw_NewPassword" xml:space="preserve"><value>New password</value></data>
+  <data name="ResetPw_ConfirmPassword" xml:space="preserve"><value>Confirm new password</value></data>
+  <data name="ResetPw_Submit" xml:space="preserve"><value>Reset Password</value></data>
+
+  <!-- Reset Password Confirmation -->
+  <data name="ResetPwConf_Title" xml:space="preserve"><value>Password Reset</value></data>
+  <data name="ResetPwConf_Message" xml:space="preserve"><value>Your password has been reset successfully. You can now sign in with your new password.</value></data>
+  <data name="ResetPwConf_SignIn" xml:space="preserve"><value>Sign In</value></data>
+
+  <!-- General -->
+  <data name="CheckEmail" xml:space="preserve"><value>Check your email.</value></data>
+  <data name="NoData" xml:space="preserve"><value>No data available for the selected filters.</value></data>
+</root>

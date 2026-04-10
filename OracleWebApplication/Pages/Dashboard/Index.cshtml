@@ -1,0 +1,501 @@
+@page
+@model OracleWebApplication.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = L["Nav_Dashboard"];
+}
+
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        padding: 24px 32px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+    .dashboard-header h2 { margin: 0; font-size: 1.4rem; }
+    .dashboard-header .subtitle { opacity: 0.7; font-size: 0.85rem; }
+    .kpi-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 20px 24px;
+        text-align: center;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .kpi-card .label { font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .kpi-card .value { font-size: 1.6rem; font-weight: 700; color: #1e293b; }
+    .kpi-card .value.accent { color: #f59e0b; }
+    .chart-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .chart-card h5 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #3b82f6;
+        display: inline-block;
+    }
+    .table-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        overflow-x: auto;
+    }
+    .table-card h5 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 12px;
+    }
+    .table-card table {
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    .table-card thead th {
+        background: #f1f5f9;
+        color: #475569;
+        font-weight: 600;
+        border-bottom: 2px solid #cbd5e1;
+        padding: 6px 10px;
+    }
+    .table-card tbody td {
+        padding: 5px 10px;
+        color: #334155;
+    }
+    .table-card tbody tr:nth-child(even) { background: #f8fafc; }
+    .table-card tfoot td {
+        font-weight: 700;
+        background: #eef2ff;
+        border-top: 2px solid #6366f1;
+    }
+    .range-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 4px 14px;
+        border-radius: 6px;
+        font-size: 0.82rem;
+    }
+    .platform-badge {
+        background: #c0392b;
+        color: #fff;
+        padding: 4px 14px;
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+    .updated-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 4px 14px;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        opacity: 0.85;
+    }
+    .filter-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+    }
+    .filter-card label { font-size: 0.8rem; font-weight: 600; color: #475569; }
+    .filter-card select, .filter-card input[type="date"] { font-size: 0.85rem; }
+</style>
+
+<!-- ═══ HEADER ═══ -->
+<div class="dashboard-header">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <h2>@Model.TenantName</h2>
+            <span class="subtitle">@L["Dash_Subtitle"] </span>
+        </div>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <span class="range-badge">
+                📅 @Model.RangeStart.ToString("yyyy-MM-dd") &nbsp;@L["Dash_DateTo"]&nbsp; @Model.RangeEnd.ToString("yyyy-MM-dd")
+            </span>
+            @if (Model.LastUpdatedUtc.HasValue)
+            {
+                <span class="updated-badge">
+                    🔄 @L["Dash_LastUpdated"]: @Model.LastUpdatedUtc.Value.ToString("yyyy-MM-dd HH:mm") UTC
+                </span>
+            }
+            <span class="platform-badge">Oracle Cloud</span>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ FILTER PANEL ═══ -->
+<div class="filter-card">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-2">
+            <label for="FilterStartDate">@L["Filter_StartDate"]</label>
+            <input type="date" class="form-control form-control-sm" id="FilterStartDate" name="FilterStartDate"
+                   value="@Model.RangeStart.ToString("yyyy-MM-dd")"
+                   min="@Model.DataRangeStart.ToString("yyyy-MM-dd")" max="@Model.DataRangeEnd.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-2">
+            <label for="FilterEndDate">@L["Filter_EndDate"]</label>
+            <input type="date" class="form-control form-control-sm" id="FilterEndDate" name="FilterEndDate"
+                   value="@Model.RangeEnd.ToString("yyyy-MM-dd")"
+                   min="@Model.DataRangeStart.ToString("yyyy-MM-dd")" max="@Model.DataRangeEnd.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-3">
+            <label for="FilterRegions">@L["Filter_Regions"]</label>
+            <!select class="form-select form-select-sm" id="FilterRegions" name="FilterRegions" multiple
+                    style="height:auto;min-height:34px;max-height:120px;">
+                @foreach (var reg in Model.AllRegions)
+                {
+                    if (Model.FilterRegions?.Contains(reg) == true)
+                    {
+                        <option value="@reg" selected="selected">@reg</option>
+                    }
+                    else
+                    {
+                        <option value="@reg">@reg</option>
+                    }
+                }
+            </!select>
+        </div>
+        <div class="col-md-3">
+            <label for="FilterServices">@L["Filter_Services"]</label>
+            <!select class="form-select form-select-sm" id="FilterServices" name="FilterServices" multiple
+                    style="height:auto;min-height:34px;max-height:120px;">
+                @foreach (var svc in Model.AllServices)
+                {
+                    if (Model.FilterServices?.Contains(svc) == true)
+                    {
+                        <option value="@svc" selected="selected">@svc</option>
+                    }
+                    else
+                    {
+                        <option value="@svc">@svc</option>
+                    }
+                }
+            </!select>
+        </div>
+        <div class="col-md-2 d-flex gap-1">
+            <button type="submit" class="btn btn-primary btn-sm flex-grow-1">@L["Filter_Apply"]</button>
+            <a asp-page="/Dashboard/Index" class="btn btn-outline-secondary btn-sm">@L["Filter_Reset"]</a>
+        </div>
+    </form>
+</div>
+
+<!-- ═══ KPI CARDS ═══ -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="label">@L["Dash_CumulativeCost"]</div>
+            <div class="value">@Model.TotalCost.ToString("N2") <small>USD</small></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="label">@L["Dash_CurrentMonthCost"]</div>
+            <div class="value accent">@Model.CurrentMonthCost.ToString("N2") <small>USD</small></div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="kpi-card">
+            <div class="label">@L["Dash_Account"]</div>
+            <div class="value" style="font-size:1rem;">@Model.UserEmail</div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ ROW 1: Monthly Cost + Region Pie ═══ -->
+<div class="row g-3 mb-0">
+    <div class="col-lg-8">
+        <div class="chart-card">
+            <h5>@L["Dash_MonthlyCost"]</h5>
+            <canvas id="monthlyChart" height="220"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="chart-card">
+            <h5>@L["Dash_RegionBreakdown"]</h5>
+            <canvas id="regionPieChart" height="220"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ ROW 2: Daily Cost ═══ -->
+<div class="row g-3 mb-0">
+    <div class="col-12">
+        <div class="chart-card">
+            <h5>@L["Dash_DailyCost"]</h5>
+            <canvas id="dailyChart" height="160"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ ROW 3: Service Stacked ═══ -->
+<div class="row g-3 mb-0">
+    <div class="col-12">
+        <div class="chart-card">
+            <h5>@L["Dash_DailyProductCost"]</h5>
+            <canvas id="serviceStackedChart" height="180"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ TABLE: Daily Service Cost ═══ -->
+<div class="table-card">
+    <h5>@L["Dash_DailyProductTable"]</h5>
+    <table class="table table-sm table-bordered mb-0">
+        <thead>
+            <tr>
+                <th rowspan="2">@L["Dash_ProductService"]</th>
+                @foreach (var svc in Model.ServiceColumns)
+                {
+                    <th class="text-center">@svc</th>
+                }
+            </tr>
+            <tr>
+                @foreach (var _ in Model.ServiceColumns)
+                {
+                    <th class="text-center" style="font-weight:400;font-size:0.7rem;color:#94a3b8;">@L["Dash_Cost"]</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{ decimal[] colTotals = new decimal[Model.ServiceColumns.Length]; }
+            @foreach (var row in Model.DailyServiceRows)
+            {
+                @for (int i = 0; i < Model.ServiceColumns.Length; i++)
+                {
+                    var svc = Model.ServiceColumns[i];
+                    var val = row.ServiceCosts.GetValueOrDefault(svc);
+                    colTotals[i] += val;
+                }
+            }
+            <tr class="table-primary">
+                <td><strong>@L["Dash_Total"]</strong></td>
+                @foreach (var t in colTotals)
+                {
+                    <td class="text-end"><strong>@t.ToString("N2")</strong></td>
+                }
+            </tr>
+            @foreach (var row in Model.DailyServiceRows.Take(10))
+            {
+                <tr>
+                    <td>@row.Date</td>
+                    @foreach (var svc in Model.ServiceColumns)
+                    {
+                        var val = row.ServiceCosts.GetValueOrDefault(svc);
+                        <td class="text-end">@val.ToString("N2")</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- ═══ TABLE: Regional Service Cost ═══ -->
+<div class="table-card">
+    <h5>@L["Dash_RegionalProductTable"]</h5>
+    <table class="table table-sm table-bordered mb-0">
+        <thead>
+            <tr>
+                <th rowspan="2">@L["Dash_Region"]</th>
+                @foreach (var reg in Model.RegionColumns)
+                {
+                    <th class="text-center">@reg</th>
+                }
+            </tr>
+            <tr>
+                @foreach (var _ in Model.RegionColumns)
+                {
+                    <th class="text-center" style="font-weight:400;font-size:0.7rem;color:#94a3b8;">@L["Dash_Cost"]</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                decimal[] regTotals = new decimal[Model.RegionColumns.Length];
+            }
+            @* Totals row *@
+            <tr class="table-primary">
+                <td><strong>@L["Dash_ProductService"]</strong></td>
+                @for (int ri = 0; ri < Model.RegionColumns.Length; ri++)
+                {
+                    var reg = Model.RegionColumns[ri];
+                    var regRow = Model.RegionalServiceRows.FirstOrDefault(r => r.Region == reg);
+                    var total = regRow?.ServiceCosts.Values.Sum() ?? 0m;
+                    regTotals[ri] = total;
+                    <td class="text-end"><strong>@total.ToString("N2")</strong></td>
+                }
+            </tr>
+            @* One row per service *@
+            @foreach (var svc in Model.ServiceColumns)
+            {
+                <tr>
+                    <td>@svc</td>
+                    @foreach (var reg in Model.RegionColumns)
+                    {
+                        var regRow = Model.RegionalServiceRows.FirstOrDefault(r => r.Region == reg);
+                        var val = regRow?.ServiceCosts.GetValueOrDefault(svc) ?? 0m;
+                        <td class="text-end">@(val > 0 ? val.ToString("N2") : "")</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- ═══ Outbound Data Transfer ═══ -->
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="chart-card">
+            <h5>@L["Dash_OutboundTransfer"]</h5>
+            <canvas id="transferChart" height="160"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        // ── colour palette ──
+        const blue = '#3b82f6', blueLight = '#93c5fd', gold = '#f59e0b';
+        const stackColors = [
+            '#6366f1','#3b82f6','#06b6d4','#10b981','#84cc16',
+            '#eab308','#f97316','#ef4444','#ec4899','#8b5cf6',
+            '#14b8a6','#64748b'
+        ];
+
+        // ── Monthly Cost ──
+        const mc = @Html.Raw(Model.MonthlyCostJson);
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'bar',
+            data: {
+                labels: mc.labels,
+                datasets: [{
+                    label: 'Monthly Cost (USD)',
+                    data: mc.values,
+                    backgroundColor: blue,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => `$${ctx.parsed.y.toLocaleString()}` } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => `$${(v/1000).toFixed(0)}k` }
+                    }
+                }
+            }
+        });
+
+        // ── Daily Cost ──
+        const dc = @Html.Raw(Model.DailyCostJson);
+        new Chart(document.getElementById('dailyChart'), {
+            type: 'bar',
+            data: {
+                labels: dc.labels,
+                datasets: [{
+                    label: 'Daily Cost (USD)',
+                    data: dc.values,
+                    backgroundColor: blueLight,
+                    borderRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: v => `$${v}` } },
+                    x: { ticks: { maxRotation: 45 } }
+                }
+            }
+        });
+
+        // ── Service Stacked ──
+        const ss = @Html.Raw(Model.ServiceStackedJson);
+        new Chart(document.getElementById('serviceStackedChart'), {
+            type: 'bar',
+            data: {
+                labels: ss.labels,
+                datasets: ss.datasets.map((ds, i) => ({
+                    label: ds.label,
+                    data: ds.data,
+                    backgroundColor: stackColors[i % stackColors.length],
+                    borderRadius: 2
+                }))
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+                },
+                scales: {
+                    x: { stacked: true, ticks: { maxRotation: 45 } },
+                    y: { stacked: true, beginAtZero: true, ticks: { callback: v => `$${v}` } }
+                }
+            }
+        });
+
+        // ── Region Pie ──
+        const rp = @Html.Raw(Model.RegionPieJson);
+        new Chart(document.getElementById('regionPieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: rp.labels,
+                datasets: [{
+                    data: rp.values,
+                    backgroundColor: stackColors
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 } } },
+                    tooltip: { callbacks: { label: ctx => `${ctx.label}: $${ctx.parsed.toLocaleString()}` } }
+                }
+            }
+        });
+
+        // ── Outbound Transfer ──
+        const tr = @Html.Raw(Model.TransferChartJson);
+        new Chart(document.getElementById('transferChart'), {
+            type: 'line',
+            data: {
+                labels: tr.labels,
+                datasets: [{
+                    label: 'Outbound (GB)',
+                    data: tr.values,
+                    fill: true,
+                    backgroundColor: 'rgba(59,130,246,0.15)',
+                    borderColor: blue,
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: v => `${v} GB` } },
+                    x: { ticks: { maxRotation: 45 } }
+                }
+            }
+        });
+    </script>
+}

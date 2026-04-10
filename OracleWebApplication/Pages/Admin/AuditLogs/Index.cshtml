@@ -1,0 +1,34 @@
+@page
+@model OracleWebApplication.Pages.Admin.AuditLogs.IndexModel
+@{
+    ViewData["Title"] = "Audit Logs";
+}
+
+<h2>Audit Logs</h2>
+<p class="text-muted">Showing the most recent 200 entries.</p>
+
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Timestamp (UTC)</th>
+            <th>Event</th>
+            <th>User</th>
+            <th>Tenant ID</th>
+            <th>IP Address</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var log in Model.Logs)
+        {
+            <tr>
+                <td>@log.TimestampUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td><span class="badge bg-dark">@log.EventType</span></td>
+                <td>@(log.UserName ?? "—")</td>
+                <td>@(log.ClientTenantId?.ToString() ?? "—")</td>
+                <td>@(log.IpAddress ?? "—")</td>
+                <td>@(log.Details ?? "—")</td>
+            </tr>
+        }
+    </tbody>
+</table>

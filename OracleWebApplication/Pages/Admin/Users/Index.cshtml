@@ -1,0 +1,64 @@
+@page
+@model OracleWebApplication.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Display Name</th>
+            <th>Tenant</th>
+            <th>Role</th>
+            <th>Active</th>
+            <th>Last Login (UTC)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model.Users)
+        {
+            <tr>
+                <td>@u.Email</td>
+                <td>@u.DisplayName</td>
+                <td>@u.TenantName</td>
+                <td>
+                    @if (u.IsAdmin)
+                    {
+                        <span class="badge bg-primary">Admin</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-info text-dark">Client</span>
+                    }
+                </td>
+                <td>
+                    @if (u.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactive</span>
+                    }
+                </td>
+                <td>@(u.LastLoginUtc?.ToString("yyyy-MM-dd HH:mm") ?? "Never")</td>
+                <td>
+                    <form method="post" asp-page="ToggleActive" asp-route-id="@u.Id" class="d-inline">
+                        @if (u.IsActive)
+                        {
+                            <button type="submit" class="btn btn-sm btn-outline-warning">Deactivate</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-sm btn-outline-success">Activate</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

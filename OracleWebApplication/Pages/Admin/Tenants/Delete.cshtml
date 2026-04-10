@@ -1,0 +1,32 @@
+@page "{id:int}"
+@model OracleWebApplication.Pages.Admin.Tenants.DeleteModel
+@{
+    ViewData["Title"] = "Delete Tenant";
+}
+
+<h2>Delete Tenant</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete <strong>@Model.Tenant.CompanyName</strong>?
+</div>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<dl class="row">
+    <dt class="col-sm-3">Company Name</dt>
+    <dd class="col-sm-9">@Model.Tenant.CompanyName</dd>
+
+    <dt class="col-sm-3">OCI Tenancy OCID</dt>
+    <dd class="col-sm-9"><code>@Model.Tenant.OciTenancyOcid</code></dd>
+
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">@(Model.Tenant.Description ?? "—")</dd>
+
+    <dt class="col-sm-3">Assigned Users</dt>
+    <dd class="col-sm-9">@Model.UserCount</dd>
+</dl>
+
+<form method="post" asp-route-id="@Model.Tenant.Id">
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

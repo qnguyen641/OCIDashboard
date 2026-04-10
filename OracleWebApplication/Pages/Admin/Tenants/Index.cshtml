@@ -1,0 +1,49 @@
+@page
+@model OracleWebApplication.Pages.Admin.Tenants.IndexModel
+@{
+    ViewData["Title"] = "Manage Tenants";
+}
+
+<h2>Manage Tenants</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New Tenant</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>OCI Tenancy OCID</th>
+            <th>Active</th>
+            <th>Created (UTC)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.Tenants)
+        {
+            <tr>
+                <td>@t.Id</td>
+                <td>@t.CompanyName</td>
+                <td><code>@t.OciTenancyOcid</code></td>
+                <td>
+                    @if (t.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactive</span>
+                    }
+                </td>
+                <td>@t.CreatedUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

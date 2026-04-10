@@ -1,0 +1,48 @@
+@page
+@model OracleWebApplication.Pages.Admin.Tenants.CreateModel
+@{
+    ViewData["Title"] = "Create Tenant";
+}
+
+<h2>Create Tenant</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.CompanyName" class="form-label"></label>
+                <input asp-for="Input.CompanyName" class="form-control" />
+                <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.OciTenancyOcid" class="form-label"></label>
+                <input asp-for="Input.OciTenancyOcid" class="form-control" />
+                <span asp-validation-for="Input.OciTenancyOcid" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.CompartmentOcid" class="form-label"></label>
+                <input asp-for="Input.CompartmentOcid" class="form-control"
+                       placeholder="ocid1.compartment.oc1..example" />
+                <span asp-validation-for="Input.CompartmentOcid" class="text-danger"></span>
+                <div class="form-text">Used to scope OCI cost data for this tenant.</div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Description" class="form-label"></label>
+                <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

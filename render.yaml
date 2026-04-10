@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: oci-dashboard
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false                       # Set manually in Render dashboard
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Smtp__Host
+        value: smtp.gmail.com
+      - key: Smtp__Port
+        value: "587"
+      - key: Smtp__Username
+        sync: false                       # Set manually
+      - key: Smtp__Password
+        sync: false                       # Set manually (Gmail App Password)
+      - key: Smtp__FromAddress
+        sync: false
+      - key: Smtp__FromName
+        value: OCI Dashboard
+      - key: Smtp__EnableSsl
+        value: "true"

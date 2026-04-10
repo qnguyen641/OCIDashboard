@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Navigation -->
+  <data name="Nav_Home" xml:space="preserve"><value>首页</value></data>
+  <data name="Nav_Dashboard" xml:space="preserve"><value>仪表盘</value></data>
+  <data name="Nav_Privacy" xml:space="preserve"><value>隐私政策</value></data>
+  <data name="Nav_Admin" xml:space="preserve"><value>管理</value></data>
+  <data name="Nav_Tenants" xml:space="preserve"><value>租户管理</value></data>
+  <data name="Nav_Users" xml:space="preserve"><value>用户管理</value></data>
+  <data name="Nav_AuditLogs" xml:space="preserve"><value>审计日志</value></data>
+  <data name="Nav_Login" xml:space="preserve"><value>登录</value></data>
+  <data name="Nav_Register" xml:space="preserve"><value>注册</value></data>
+  <data name="Nav_Logout" xml:space="preserve"><value>退出登录</value></data>
+  <data name="Nav_Hello" xml:space="preserve"><value>你好，{0}！</value></data>
+  <data name="Nav_Language" xml:space="preserve"><value>语言</value></data>
+
+  <!-- Dashboard Header -->
+  <data name="Dash_Subtitle" xml:space="preserve"><value>费用分析 | Oracle 云基础设施</value></data>
+  <data name="Dash_DateTo" xml:space="preserve"><value>至</value></data>
+
+  <!-- Dashboard KPI -->
+  <data name="Dash_CumulativeCost" xml:space="preserve"><value>累计总费用（不含税）</value></data>
+  <data name="Dash_CurrentMonthCost" xml:space="preserve"><value>当月费用（不含税）</value></data>
+  <data name="Dash_Account" xml:space="preserve"><value>账户</value></data>
+  <data name="Dash_LastUpdated" xml:space="preserve"><value>最后更新</value></data>
+
+  <!-- Dashboard Charts -->
+  <data name="Dash_MonthlyCost" xml:space="preserve"><value>每月费用</value></data>
+  <data name="Dash_RegionBreakdown" xml:space="preserve"><value>区域费用构成</value></data>
+  <data name="Dash_DailyCost" xml:space="preserve"><value>每日费用</value></data>
+  <data name="Dash_DailyProductCost" xml:space="preserve"><value>每日产品费用</value></data>
+  <data name="Dash_OutboundTransfer" xml:space="preserve"><value>虚拟云网络 / 出站数据传输</value></data>
+
+  <!-- Dashboard Tables -->
+  <data name="Dash_DailyProductTable" xml:space="preserve"><value>每日产品费用明细</value></data>
+  <data name="Dash_RegionalProductTable" xml:space="preserve"><value>区域服务费用统计</value></data>
+  <data name="Dash_ProductService" xml:space="preserve"><value>产品/服务</value></data>
+  <data name="Dash_Cost" xml:space="preserve"><value>费用</value></data>
+  <data name="Dash_Total" xml:space="preserve"><value>合计</value></data>
+  <data name="Dash_Region" xml:space="preserve"><value>区域</value></data>
+
+  <!-- Dashboard Filters -->
+  <data name="Filter_StartDate" xml:space="preserve"><value>开始日期</value></data>
+  <data name="Filter_EndDate" xml:space="preserve"><value>结束日期</value></data>
+  <data name="Filter_Regions" xml:space="preserve"><value>区域</value></data>
+  <data name="Filter_Services" xml:space="preserve"><value>服务</value></data>
+  <data name="Filter_Apply" xml:space="preserve"><value>应用筛选</value></data>
+  <data name="Filter_Reset" xml:space="preserve"><value>重置</value></data>
+  <data name="Filter_AllRegions" xml:space="preserve"><value>全部区域</value></data>
+  <data name="Filter_AllServices" xml:space="preserve"><value>全部服务</value></data>
+
+  <!-- Login -->
+  <data name="Login_Title" xml:space="preserve"><value>登录</value></data>
+  <data name="Login_Email" xml:space="preserve"><value>电子邮箱</value></data>
+  <data name="Login_Password" xml:space="preserve"><value>密码</value></data>
+  <data name="Login_RememberMe" xml:space="preserve"><value>记住我</value></data>
+  <data name="Login_Submit" xml:space="preserve"><value>登录</value></data>
+  <data name="Login_ForgotPassword" xml:space="preserve"><value>忘记密码？</value></data>
+  <data name="Login_CreateAccount" xml:space="preserve"><value>创建新账户</value></data>
+
+  <!-- Forgot Password -->
+  <data name="ForgotPw_Title" xml:space="preserve"><value>忘记密码</value></data>
+  <data name="ForgotPw_Desc" xml:space="preserve"><value>输入您的电子邮箱地址，我们将向您发送密码重置链接。</value></data>
+  <data name="ForgotPw_Submit" xml:space="preserve"><value>发送重置链接</value></data>
+  <data name="ForgotPw_BackToLogin" xml:space="preserve"><value>返回登录</value></data>
+
+  <!-- Forgot Password Confirmation -->
+  <data name="ForgotPwConf_Title" xml:space="preserve"><value>邮件已发送</value></data>
+  <data name="ForgotPwConf_Message" xml:space="preserve"><value>如果该邮箱对应的账户存在，我们已发送密码重置链接。请检查您的收件箱（以及垃圾邮件文件夹）。</value></data>
+
+  <!-- Reset Password -->
+  <data name="ResetPw_Title" xml:space="preserve"><value>重置密码</value></data>
+  <data name="ResetPw_Desc" xml:space="preserve"><value>请在下方输入您的新密码。</value></data>
+  <data name="ResetPw_NewPassword" xml:space="preserve"><value>新密码</value></data>
+  <data name="ResetPw_ConfirmPassword" xml:space="preserve"><value>确认新密码</value></data>
+  <data name="ResetPw_Submit" xml:space="preserve"><value>重置密码</value></data>
+
+  <!-- Reset Password Confirmation -->
+  <data name="ResetPwConf_Title" xml:space="preserve"><value>密码已重置</value></data>
+  <data name="ResetPwConf_Message" xml:space="preserve"><value>您的密码已成功重置。您现在可以使用新密码登录。</value></data>
+  <data name="ResetPwConf_SignIn" xml:space="preserve"><value>登录</value></data>
+
+  <!-- General -->
+  <data name="CheckEmail" xml:space="preserve"><value>请查收邮件。</value></data>
+  <data name="NoData" xml:space="preserve"><value>所选筛选条件下没有可用数据。</value></data>
+</root>

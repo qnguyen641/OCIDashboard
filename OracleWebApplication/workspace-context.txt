@@ -1,0 +1,45 @@
+===============================================
+ WORKSPACE CONTEXT
+===============================================
+
+Project Targeting: .NET 10
+Project Type:      Razor Pages (ASP.NET Core)
+Priority:          Razor Pages over Blazor or ASP.NET Core MVC
+
+===============================================
+ IDE STATE CONTEXT
+===============================================
+
+IDE:               Microsoft Visual Studio Community 2026 (18.5.0-insiders)
+Workspace Root:    C:\Users\nguye\source\repos\OracleWebApplication\
+Preferred Shell:   powershell.exe
+
+===============================================
+ PROJECT – OCI Client Utilization Dashboard
+===============================================
+
+Goal:              Web-based dashboard portal for clients to view OCI cost
+                   and utilization data under a company's subtenant account.
+
+User Roles:        Client User, Admin
+
+Key Features:
+  - Authentication & access control (login, session timeout 30 min)
+  - OCI API integration (Usage/Cost API, API key auth, 24h cache)
+  - Dashboard with summary cards, charts (bar, stacked bar, pie, line), data tables
+  - Localisation: English + Simplified Chinese
+  - Admin panel for client account management
+  - Strict per-client data isolation (server-side)
+  - Audit logging of login and data access events
+
+Tech Stack:
+  - ASP.NET Core Razor Pages (.NET 10)
+  - Entity Framework Core + ASP.NET Core Identity
+  - Chart.js (CDN) for frontend charts
+  - Bootstrap (included) for UI
+  - OCI REST API via HttpClient
+  - Localization via resource files (.resx)
+
+Currency:          USD
+Data Freshness:    Minimum every 24 hours
+Security:          HTTPS only, secrets manager for API credentials

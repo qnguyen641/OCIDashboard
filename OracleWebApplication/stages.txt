@@ -1,0 +1,94 @@
+===============================================
+ OCI Client Utilization Dashboard – Stage Log
+===============================================
+
+-----------------------------------------------
+ Stage 1 – Project Setup & Data Model
+-----------------------------------------------
+- Created ASP.NET Core Razor Pages project targeting .NET 8
+- Configured EF Core with Pomelo MySQL provider
+- Defined core models:
+    • ClientTenant  (company, OCI tenancy OCID, active flag)
+    • ApplicationUser  (extends IdentityUser with DisplayName,
+      ClientTenantId FK, IsActive, LastLoginUtc)
+    • AuditLog  (event type, user, tenant, IP, details, timestamp)
+- Configured ApplicationDbContext with indexes and relationships
+- Created initial EF Core migration (InitialCreate)
+- Set up connection string in appsettings.json
+
+-----------------------------------------------
+ Stage 2 – Authentication
+-----------------------------------------------
+- Integrated ASP.NET Core Identity (custom ApplicationUser)
+- Created Razor Pages:
+    • /Account/Login   – email/password sign-in with lockout
+    • /Account/Register – self-registration with tenant picker
+    • /Account/Logout  – POST-based sign-out
+    • /Account/AccessDenied – denied page
+- Configured password policy (8+ chars, upper, lower, digit, symbol)
+- Configured cookie auth with 30-minute sliding session timeout
+- Created DbSeeder to auto-run migrations, seed Admin role,
+  default tenant, and admin@oci.local user on startup
+- Added _LoginPartial for nav bar sign-in / sign-out UI
+
+-----------------------------------------------
+ Stage 3 – Admin Panel & Audit Logging
+-----------------------------------------------
+- Created Services/AuditService (scoped) for recording audit events
+- Admin Tenant Management (Authorize Roles = Admin):
+    • /Admin/Tenants/Index  – list all tenants
+    • /Admin/Tenants/Create – add new tenant (audit-logged)
+    • /Admin/Tenants/Edit   – update tenant details & active flag
+    • /Admin/Tenants/Delete – delete (blocked if users assigned)
+- Admin User Management:
+    • /Admin/Users/Index       – list users with role, tenant, status
+    • /Admin/Users/ToggleActive – activate / deactivate a user
+- Admin Audit Log Viewer:
+    • /Admin/AuditLogs/Index – 200 most-recent audit entries
+- Integrated audit logging into Login page:
+    • LoginSuccess – records user ID, tenant, IP; updates LastLoginUtc
+    • LoginFailed  – records attempted email and IP
+- Added Admin dropdown in _Layout.cshtml (visible only to Admin role)
+
+-----------------------------------------------
+ Stage 4 – OCI API Integration
+-----------------------------------------------
+- Added OciApiSettings config model bound from "OciApi" appsettings section
+  (TenancyOcid, UserOcid, KeyFingerprint, PrivateKeyPath, Region,
+   RefreshIntervalHours)
+- Added OciApi configuration block to appsettings.json
+- Added CompartmentOcid field to ClientTenant model for per-client
+  OCI data scoping; updated Create/Edit admin pages to include it
+- Created data models:
+    • OciCostRecord  (tenant, date, service, region, cost, currency)
+    • OciDataTransferRecord  (tenant, date, outbound GB)
+- Updated ApplicationDbContext with DbSets, composite indexes, and
+  decimal precision configuration for new models
+- Created Services/OciRequestSigner — signs HTTP requests per
+  OCI HTTP Signature spec (RSA-SHA256, PEM private key)
+- Created Services/OciUsageApiService — calls OCI Usage API,
+  fetches 90-day daily cost data per compartment, caches in DB,
+  replaces stale records on each refresh
+- Created Services/OciDataRefreshService — BackgroundService that
+  runs every N hours (default 24), refreshes all active tenants;
+  gracefully skips if OCI API is not configured
+- Registered all OCI services in Program.cs (Options, Singleton
+  signer, typed HttpClient, hosted background service)
+
+-----------------------------------------------
+ Stage 5 – Dashboard UI  (planned)
+-----------------------------------------------
+Planned:
+- Summary cards (cumulative cost, current-period cost, billing period)
+- Chart.js charts: monthly cost bars, daily cost bars,
+  daily cost by product (stacked), regional pie, VCN line chart
+- Data tables: daily cost by product, regional cost by product
+- Date range picker, region & product multi-select filters
+
+-----------------------------------------------
+ Stage 6 – Localisation  (planned)
+-----------------------------------------------
+Planned:
+- Resource files (.resx) for English and Simplified Chinese
+- Language switcher in header (persisted per user preference)
+- Locale-aware formatting for currency, dates, numbers

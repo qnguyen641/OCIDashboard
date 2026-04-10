@@ -1,0 +1,40 @@
+## .NET / Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.rsuser
+*.userprefs
+
+## NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/packages/repositories.config
+project.lock.json
+project.fragment.lock.json
+
+## Build results
+[Dd]ebugPublic/
+[Rr]eleases/
+build/
+bld/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+## Secrets — do NOT commit real credentials
+appsettings.Production.json
+
+## OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
