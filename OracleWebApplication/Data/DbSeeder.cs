@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using OracleWebApplication.Models;
 
 namespace OracleWebApplication.Data;
@@ -70,9 +72,18 @@ public static class DbSeeder
         }
         else
         {
-            // Production (Render/Supabase): create tables if they don't exist.
-            // Uses EnsureCreatedAsync because existing EF migrations target MySQL.
-            await db.Database.EnsureCreatedAsync();
+            // Production (Render/Supabase): Supabase's "postgres" database already exists
+            // so EnsureCreatedAsync() would skip table creation. Use the
+            // RelationalDatabaseCreator to force-create tables if they're missing.
+            var creator = (RelationalDatabaseCreator)db.Database.GetService<IDatabaseCreator>();
+            try
+            {
+                await creator.CreateTablesAsync();
+            }
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "42P07")
+            {
+                // 42P07 = "relation already exists" — tables already created, safe to ignore
+            }
         }
 
         // Seed Admin role
