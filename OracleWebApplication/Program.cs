@@ -50,14 +50,35 @@ bool usePostgres;
 if (!string.IsNullOrEmpty(dbUrl))
 {
     // Supabase/Render provide a URI like postgresql://user:pass@host:port/db
-    // Npgsql needs a standard connection string: Host=...;Port=...;Database=...;Username=...;Password=...
+    // Npgsql needs a standard connection string: Host=...;Database=...;Username=...;Password=...
+    // We parse manually because passwords may contain special chars that break System.Uri
     if (dbUrl.StartsWith("postgresql://") || dbUrl.StartsWith("postgres://"))
     {
-        var uri = new Uri(dbUrl);
-        var userInfo = uri.UserInfo.Split(':');
-        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')}"
-                         + $";Username={Uri.UnescapeDataString(userInfo[0])}"
-                         + $";Password={Uri.UnescapeDataString(userInfo[1])}"
+        // Strip scheme → user:pass@host:port/db
+        var withoutScheme = dbUrl[(dbUrl.IndexOf("://") + 3)..];
+
+        // Split at last '@' (password may contain '@')
+        var atIdx = withoutScheme.LastIndexOf('@');
+        var userPass = withoutScheme[..atIdx];
+        var hostPortDb = withoutScheme[(atIdx + 1)..];
+
+        // user:pass — split at first ':' (username won't contain ':')
+        var colonIdx = userPass.IndexOf(':');
+        var user = Uri.UnescapeDataString(userPass[..colonIdx]);
+        var pass = Uri.UnescapeDataString(userPass[(colonIdx + 1)..]);
+
+        // host:port/db
+        var slashIdx = hostPortDb.IndexOf('/');
+        var hostPort = slashIdx >= 0 ? hostPortDb[..slashIdx] : hostPortDb;
+        var database = slashIdx >= 0 ? hostPortDb[(slashIdx + 1)..] : "postgres";
+
+        // host:port — split at last ':'
+        var portColonIdx = hostPort.LastIndexOf(':');
+        var host = hostPort[..portColonIdx];
+        var portStr = hostPort[(portColonIdx + 1)..];
+
+        connectionString = $"Host={host};Port={portStr};Database={database}"
+                         + $";Username={user};Password={pass}"
                          + ";SSL Mode=Require;Trust Server Certificate=true"
                          + ";Timeout=30;Command Timeout=60";
     }
