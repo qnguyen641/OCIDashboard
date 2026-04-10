@@ -34,19 +34,22 @@ if (!string.IsNullOrEmpty(port))
 }
 
 // EF Core — auto-detect PostgreSQL (Supabase) vs MySQL (local dev)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-var usePostgres = connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase)
-               || connectionString.Contains("postgresql", StringComparison.OrdinalIgnoreCase)
-               || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL"));
-
-// If DATABASE_URL env var is set (Render/Supabase), use it
+// DATABASE_URL env var takes priority (set on Render); falls back to appsettings
 var dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+string connectionString;
+bool usePostgres;
+
 if (!string.IsNullOrEmpty(dbUrl))
 {
     connectionString = dbUrl;
     usePostgres = true;
+}
+else
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    usePostgres = connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase)
+              || connectionString.Contains("postgresql", StringComparison.OrdinalIgnoreCase);
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
