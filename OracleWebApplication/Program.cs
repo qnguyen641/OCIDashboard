@@ -49,7 +49,21 @@ bool usePostgres;
 
 if (!string.IsNullOrEmpty(dbUrl))
 {
-    connectionString = dbUrl;
+    // Supabase/Render provide a URI like postgresql://user:pass@host:port/db
+    // Npgsql needs a standard connection string: Host=...;Port=...;Database=...;Username=...;Password=...
+    if (dbUrl.StartsWith("postgresql://") || dbUrl.StartsWith("postgres://"))
+    {
+        var uri = new Uri(dbUrl);
+        var userInfo = uri.UserInfo.Split(':');
+        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')}"
+                         + $";Username={Uri.UnescapeDataString(userInfo[0])}"
+                         + $";Password={Uri.UnescapeDataString(userInfo[1])}"
+                         + ";SSL Mode=Require;Trust Server Certificate=true";
+    }
+    else
+    {
+        connectionString = dbUrl;
+    }
     usePostgres = true;
 }
 else
