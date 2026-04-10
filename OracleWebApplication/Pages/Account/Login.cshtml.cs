@@ -46,6 +46,13 @@ public class LoginModel : PageModel
 
     public async Task OnGetAsync(string? returnUrl = null)
     {
+        // Already logged in — send straight to dashboard
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            Response.Redirect(returnUrl ?? "/Dashboard");
+            return;
+        }
+
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
             ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -59,7 +66,7 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
-        returnUrl ??= Url.Content("~/");
+        returnUrl ??= "/Dashboard";
 
         if (!ModelState.IsValid)
         {
