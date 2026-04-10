@@ -9,10 +9,18 @@ using OracleWebApplication.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Load .env file if it exists (local dev convenience)
-var envPath = Path.Combine(Directory.GetCurrentDirectory(), "..", ".env");
-if (File.Exists(envPath))
+// Walk up from the app's base directory to find .env at the solution root
+string? envFile = null;
+var searchDir = new DirectoryInfo(AppContext.BaseDirectory);
+while (searchDir is not null)
 {
-    foreach (var line in File.ReadAllLines(envPath))
+    var candidate = Path.Combine(searchDir.FullName, ".env");
+    if (File.Exists(candidate)) { envFile = candidate; break; }
+    searchDir = searchDir.Parent;
+}
+if (envFile is not null)
+{
+    foreach (var line in File.ReadAllLines(envFile))
     {
         var trimmed = line.Trim();
         if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith('#')) continue;
@@ -55,9 +63,10 @@ else
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     if (usePostgres)
-        options.UseNpgsql(connectionString);
+        options.UseNpgsql(connectionString, npgsql => npgsql.EnableRetryOnFailure());
     else
-        options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 0)));
+        options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 0)),
+            mysql => mysql.EnableRetryOnFailure());
 });
 
 // ASP.NET Core Identity
